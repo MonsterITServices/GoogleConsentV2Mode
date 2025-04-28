@@ -1,0 +1,18 @@
+/* Admin settings page styling */
+.consent-manager-pro-wrap {
+  max-width: 1200px;
+  padding: 20px;
+}
+
+.consent-manager-pro-wrap h2 {
+  color: #1a1a1a;
+  border-bottom: 2px solid #0073aa;
+  padding-bottom: 0.5em;
+}
+
+.consent-category-card {
+  background: #fff;
+  padding: 20px;
+  margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}

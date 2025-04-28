@@ -1,0 +1,6 @@
+msgid "Cookie Preferences"
+msgstr ""
+msgid "Necessary Cookies"
+msgstr ""
+msgid "Save Preferences"
+msgstr ""

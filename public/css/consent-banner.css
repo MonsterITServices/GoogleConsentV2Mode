@@ -1,0 +1,23 @@
+#consent-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #f1f1f1;
+  padding: 20px;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+  display: none;
+  z-index: 9999;
+}
+
+.consent-buttons {
+  margin-top: 10px;
+}
+
+#consent-accept {
+  background: #0073aa;
+  color: white;
+  padding: 8px 15px;
+  border: none;
+  cursor: pointer;
+}
