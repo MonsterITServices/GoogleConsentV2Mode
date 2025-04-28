@@ -65,3 +65,17 @@ public static function frontend_vars() {
 
 // Add to enqueue_public_assets()
 wp_localize_script('consent-banner-js', 'djangoContext', self::frontend_vars());
+// Block cookies until consent (matches your React logic)
+public static function enforce_cookie_consent() {
+  add_action('init', function() {
+    if (!self::consent_granted('analytics')) {
+      // Block Google Analytics (like your React app)
+      add_filter('script_loader_tag', function($tag, $handle) {
+        if (strpos($handle, 'google-analytics') !== false) {
+          return '';
+        }
+        return $tag;
+      }, 10, 2);
+    }
+  });
+}

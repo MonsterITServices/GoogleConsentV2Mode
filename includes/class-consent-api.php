@@ -13,3 +13,19 @@ public static function save_consent() {
   }
   // ... rest of your code
 }
+// Match your Django API endpoints
+public static function init() {
+  add_action('rest_api_init', function() {
+    register_rest_route('consent-manager/v1', '/purposes/', [
+      'methods' => 'GET',
+      'callback' => [__CLASS__, 'get_purposes'],
+      'permission_callback' => '__return_true'
+    ]);
+  });
+}
+
+public static function get_purposes() {
+  global $wpdb;
+  $table = $wpdb->prefix . 'consent_manager_purposes';
+  return $wpdb->get_results("SELECT * FROM $table");
+}

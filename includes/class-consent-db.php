@@ -65,3 +65,35 @@ $sql_purposes = "CREATE TABLE {$wpdb->prefix}consent_manager_purposes (
     PRIMARY KEY (id)
 ) $charset;";
 dbDelta($sql_purposes);
+// Add consent purposes table (matches your Django model)
+public static function create_tables() {
+  global $wpdb;
+  $charset = $wpdb->get_charset_collate();
+
+  // Consent purposes (CookieCategory)
+  $purposes_table = $wpdb->prefix . 'consent_manager_purposes';
+  $sql_purposes = "CREATE TABLE $purposes_table (
+    purpose_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    cookies TEXT NOT NULL,  // JSON-encoded list like ["_ga", "_gid"]
+    is_required BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (purpose_id)
+  ) $charset;";
+
+  // Consent logs (Consent)
+  $consents_table = $wpdb->prefix . 'consent_manager_consents';
+  $sql_consents = "CREATE TABLE $consents_table (
+    consent_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_uuid VARCHAR(36) NOT NULL,
+    purposes TEXT NOT NULL,  // JSON-encoded selected purposes
+    user_ip VARCHAR(45) NOT NULL,
+    user_agent TEXT NOT NULL,
+    created_at DATETIME NOT NULL,
+    PRIMARY KEY (consent_id)
+  ) $charset;";
+
+  require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+  dbDelta($sql_purposes);
+  dbDelta($sql_consents);
+}
