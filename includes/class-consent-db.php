@@ -45,3 +45,23 @@ $sql_consent = "CREATE TABLE $table_consent (
   INDEX user_uuid_index (user_uuid),
   INDEX consent_type_index (consent_type)
 ) $charset;";
+// Add consent purposes (matching your Django model)
+$table_purposes = $wpdb->prefix . 'consent_manager_purposes';
+$sql_purposes = "CREATE TABLE $table_purposes (
+  purpose_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) NOT NULL,
+  description TEXT NOT NULL,
+  is_active TINYINT(1) NOT NULL DEFAULT 1,
+  PRIMARY KEY (purpose_id)
+) $charset;";
+dbDelta($sql_purposes);
+// Add consent purposes table (matches your Django model)
+$sql_purposes = "CREATE TABLE {$wpdb->prefix}consent_manager_purposes (
+    id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    required BOOLEAN NOT NULL DEFAULT FALSE,
+    cookies TEXT,  // JSON-encoded list like ["_ga", "_gid"]
+    PRIMARY KEY (id)
+) $charset;";
+dbDelta($sql_purposes);

@@ -47,3 +47,21 @@ public static function enqueue_public_assets() {
     'nonce' => wp_create_nonce('consent_log_nonce') // Changed nonce name
   ]);
 }
+// Add to enqueue_public_assets()
+wp_add_inline_script('consent-banner-js', '
+  document.addEventListener("DOMContentLoaded", function() {
+    if (!localStorage.getItem("consent_preferences")) {
+      document.documentElement.style.pointerEvents = "none"; // Block interactions
+    }
+  });
+');
+public static function frontend_vars() {
+  return [
+    'consentRequired' => true,
+    'cookiePurposes' => get_option('consent_manager_purposes', []),
+    'debugMode' => defined('WP_DEBUG') && WP_DEBUG
+  ];
+}
+
+// Add to enqueue_public_assets()
+wp_localize_script('consent-banner-js', 'djangoContext', self::frontend_vars());
